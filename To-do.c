@@ -67,7 +67,7 @@ int main()
         case 2:
             int id;
             MostrarTareasDeUnaLista(&listaTareasPendientes);
-            printf("ingrese el id de la tarea que desea terminar");
+            printf("ingrese el id de la tarea que desea terminar\n");
             scanf("%d",&id);
             Nodo* nodo = QuitarNodoDeLista(id,&listaTareasPendientes);
             if (nodo)
@@ -80,7 +80,12 @@ int main()
             }
             break;
         case 3:
-            /* code */
+            printf("\n\tTareas realizadas: \n\n");
+            MostrarTareasDeUnaLista(&listaTareasRealizadas);
+            printf("\n ----------------------------------\n");
+            printf("\n\tTareas pendientes: \n\n");
+            MostrarTareasDeUnaLista(&listaTareasPendientes);
+            printf("\n ----------------------------------\n");
             break;
         case 4:
             /* code */

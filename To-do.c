@@ -37,6 +37,9 @@ Nodo* CrearNodo();
 void AgregarNodoALista(Nodo* nodo, Nodo ** lista);
 Nodo* QuitarNodoDeLista(int ID, Nodo** lista);
 void MostrarTareasDeUnaLista(Nodo** lista);
+Nodo* BuscarTareaEnListaPorID(int id, Nodo** lista);
+Nodo* BuscarTareaEnListaPorPalabra(char* palabra, Nodo** lista);
+void MostrarNodo(Nodo* nodo);
 
 int main()
 {
@@ -88,7 +91,55 @@ int main()
             printf("\n ----------------------------------\n");
             break;
         case 4:
-            /* code */
+            printf("\n\t1.Buscar por ID.");
+            printf("\n\t2.Buscar por palabra clave.");
+            printf("\nIngrese su respuesta\n");
+            scanf("%d",&opcion);
+            if (opcion == 1)
+            {
+                int id;
+                Nodo* nodo = NULL;
+                printf("\nIngrese el id: ");
+                scanf("%d",&id);
+                nodo = BuscarTareaEnListaPorID(id,&listaTareasPendientes);
+                if (nodo != NULL)
+                {
+                    printf("\nTarea encontrada en Lista de tareas pendientes: \n");
+                    MostrarNodo(nodo);
+                }else
+                {
+                    nodo = BuscarTareaEnListaPorID(id,&listaTareasRealizadas);
+                    if (nodo!=NULL)
+                    {
+                        printf("\nTarea encontrada en Lista de tareas realizadas: \n");
+                        MostrarNodo(nodo);
+                    } 
+                }
+            }else
+            {
+                if (opcion == 2)
+                {
+                    char palabra[30];
+                    Nodo* nodo = NULL;
+                    printf("\nIngrese una palabra clave: ");
+                    scanf("%s",&palabra);
+                    nodo = BuscarTareaEnListaPorPalabra(palabra,&listaTareasPendientes);
+                    if (nodo != NULL)
+                    {
+                        printf("\nTarea encontrada en Lista de tareas pendientes: \n");
+                        MostrarNodo(nodo);
+                    }else
+                    {
+                        nodo = BuscarTareaEnListaPorID(id,&listaTareasRealizadas);
+                        if (nodo!=NULL)
+                        {
+                            printf("\nTarea encontrada en Lista de tareas realizadas: \n");
+                            MostrarNodo(nodo);
+                        } 
+                    }
+                }
+                
+            }
             break;
         case 0:
         printf("Saliendo...\n");
@@ -98,12 +149,6 @@ int main()
             break;
         }
     } while (opcion != 0);
-
-
-
-
-
-
     return 0;
 }
 
@@ -209,4 +254,54 @@ void MostrarTareasDeUnaLista(Nodo **lista)
             aux = aux->Siguiente;
         }    
     }
+}
+
+
+Nodo *BuscarTareaEnListaPorID(int id, Nodo **lista)
+{
+    Nodo* nodo = NULL;
+    Nodo* aux = *lista;
+    if (aux == NULL)
+    {
+        printf("\nLista Vacia - sin tareas para mostrar\n");
+    }else
+    {
+        while (( aux != NULL))
+        {       
+            if (aux->T.TareaID == id)
+            {
+                nodo = aux;
+            }
+            aux = aux->Siguiente;
+        }   
+    }
+    return nodo;
+}
+
+Nodo *BuscarTareaEnListaPorPalabra(char* palabra, Nodo **lista)
+{
+    Nodo* nodo = NULL;
+    Nodo* aux = *lista;
+    if (aux == NULL)
+    {
+        printf("\nLista Vacia - sin tareas para mostrar\n");
+    }else
+    {
+        while (( aux != NULL))
+        {       
+            if (strstr(aux->T.Descripcion,palabra) != NULL)
+            {
+                nodo = aux;
+            }
+            aux = aux->Siguiente;
+        }   
+    }
+    return nodo;
+}
+
+void MostrarNodo(Nodo *nodo)
+{
+    printf("\nId: %d",nodo->T.TareaID);
+    printf("\nDescripcion: %s",nodo->T.Descripcion);
+    printf("\nDuracion: %d\n",nodo->T.Duracion);
 }
